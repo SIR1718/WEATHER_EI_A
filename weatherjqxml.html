@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Estados do Tempo</title>
+	<meta charset="utf-8">
+</head>
+<body>
+<div id="control">
+	<input type="text" id="ilocal"/>
+	<button id="bwget">Obter estado do tempo</button>
+	<button id="bwclean">Limpar</button>
+</div>
+<div id="content">
+	
+</div>
+</body>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+
+<script type="text/javascript">
+	//bget 	= document.getElementById("bwget");
+	//bclean 	= document.getElementById("bwclean");
+	
+	//ilocal 	= document.getElementById("ilocal");
+	//content = document.getElementById("content");
+
+	$("#bwget").click(getCurrentWeather);
+	$("#bwclean").click(cleanWeatherInfo);
+
+	//bget.addEventListener("click", getCurrentWeather);
+	//bclean.addEventListener("click", cleanWeatherInfo);
+
+
+	function getCurrentWeather() {
+		//console.log("get");
+		//localtext = $("#ilocal").val();
+		//console.log(localtext);
+		//$("#ilocal").val("");
+
+		// http://api.openweathermap.org/data/2.5/weather?q=maputo&appid=fa454439b36b644d49e751a9b0afbcfc&units=metric
+
+		$.ajax(
+			{
+				url : "http://api.openweathermap.org/data/2.5/weather",
+				method : "GET",
+				dataType : "json",
+				data : {
+					"appid" : "fa454439b36b644d49e751a9b0afbcfc",
+					"units" : "metric",
+					"q" : $("#ilocal").val(),
+					"mode" : "xml"
+				},
+				success : showWeatherXML
+			});
+		
+		//myurl_base = "http://api.openweathermap.org/data/2.5/weather?"
+		//url_appid = "appid=fa454439b36b644d49e751a9b0afbcfc";
+		//url_units = "units=metric";
+		//url_local = "q=" + localtext;
+
+		//myurl_final = 	myurl_base + 
+		//				url_appid + "&" + 
+		//				url_units + "&" + 
+		//				url_local;
+
+		//console.log(myurl_final);
+
+		// novo pedido
+		//req = new XMLHttpRequest();
+
+		// conf.
+		//req.open("GET",myurl_final);
+
+		// callback 
+		//req.onreadystatechange = showWeather;
+
+		// fazer req
+		//req.send();
+
+	function showWeatherXML (dataXML) {
+		//todo
+	}
+
+	
+		function showWeather(data) {
+			//if (req.readyState == 4 && req.status == 200) {
+				//weatherJS = JSON.parse(req.responseText);
+				//console.log(weatherJS);
+
+				$("#content").append($("<div/>").append($("<h1/>").html(data.name)).append($("<h2/>").html(data.main.temp)));
+
+
+				console.log(data);
+				wdiv = document.createElement("div");
+				wh1 = document.createElement("h1");
+				wh2 = document.createElement("h2");
+				wimg = document.createElement("img");
+
+				wh1.innerHTML = weatherJS.name;
+				wh2.innerHTML = weatherJS.main.temp + "ºC";
+
+				url_icon = 	"http://openweathermap.org/img/w/"+
+							weatherJS.weather[0].icon + 
+							".png";
+				wimg.setAttribute("src",url_icon);
+
+				wdiv.appendChild(wh1);
+				wdiv.appendChild(wh2);
+				wh2.appendChild(wimg);
+				content.appendChild(wdiv);
+			//}
+		}
+
+	}
+
+	function cleanWeatherInfo() {
+		console.log("clean");
+		content.innerHTML = "";
+	}
+
+</script>
+</html>
